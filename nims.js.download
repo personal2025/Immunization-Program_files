@@ -1,0 +1,108 @@
+function searchKeyPress(e, form)
+{
+    if (typeof e == 'undefined' && window.event) { e = window.event; }
+    if (e.keyCode == 13)
+    {
+		document.getElementById('loginForm:submit-login').click();
+    }
+}
+
+function searchKeyPressEle(e, form)
+{
+    if (typeof e == 'undefined' && window.event) { e = window.event; }
+    if (e.keyCode == 13)
+    {
+		document.getElementById('checkEligibilityForm:chechEligBtn').click();
+    }
+}
+
+
+
+//called from newNiCOPApplication.xhtml, newModification , new Renewal and reprint Payment TAB
+function openPaymentWindow()
+{
+	if (bowser.msie) {
+		 window.open("paymenttermsandconditions.xhtml",'PAK IDENTITY Payment Terms and Conditions','height=820,width=830,location=no,toolbar=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,left=500,top=80').focus();
+	}
+	else {
+	  var ret = window.showModalDialog("paymenttermsandconditions.xhtml", "PAK IDENTITY Payment Terms and Conditions", "dialogWidth:830px;dialogHeight:820px");
+	 
+	}
+	
+}
+
+//Before Payment Window
+function openTermsAndConditionsWindow(){
+	var termsChkVal = document.getElementById("sss:termsCheckboxId").checked;
+	if(termsChkVal){
+		document.location.href="HBLPaymentInitiationServlet";
+	}else{
+		document.getElementById("termsChkErrorId").innerHTML = '*';
+	}
+}
+
+function scrollToTop(){
+	document.body.scrollTop = document.documentElement.scrollTop = 0;
+}
+
+// prints receipt for payment of HBL or E-Sahulat
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;	
+     document.body.innerHTML = printContents;	
+     window.print();	
+     document.body.innerHTML = originalContents;
+}
+
+function printInNewWindow(isPaidByESahulat) {
+	if(isPaidByESahulat){
+		window.showModalDialog("wizard-tabs/common/payments/paymentReceipt/paymentReceiptESahulat.xhtml", "PAK IDENTITY Payment", "dialogWidth:580px;dialogHeight:680px");
+	}else{
+		window.showModalDialog("wizard-tabs/common/payments/paymentReceipt/paymentReceiptHBL.xhtml", "PAK IDENTITY Payment", "dialogWidth:580px;dialogHeight:680px");
+	}
+    
+}
+
+
+function closeDialog() {
+	if (bowser.msie) {
+	  window.close();
+	} else if (bowser.firefox){
+	  window.close();
+	} else if (bowser.chrome || bowser.opera){
+	  	var pResponse = 'close';
+		parent.postMessage(pResponse,"*");
+	}	
+}
+
+
+/**
+ * 
+ * @author M. Ifzaal Majeed
+ * Dated 05/08/2015
+ */
+function stopPollingOtherThanIE() {
+	if (!bowser.msie) {
+	        polling.stop();
+		}
+	}
+
+function checkBrowserForPooling(){
+	if (!bowser.msie) {
+		polling.stop();
+		return true;
+	}
+	return false;
+}	
+
+function openFingerprintsWindow()
+{
+	if (bowser.msie || bowser.firefox) 
+	{
+		openedFingerprintWindow = window.open("FingerprintsPopupServlet",'Fingerprints Acquisition','height=845,width=1565,location=no,toolbar=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,left=150,top=80').focus();
+	}
+	else if (bowser.chrome || bowser.opera)
+	{
+		openedFingerprintWindow = window.showModalDialog("FingerprintsPopupServlet", "Fingerprints Acquisition", "dialogWidth:1565px;dialogHeight:845px");
+	}
+}
